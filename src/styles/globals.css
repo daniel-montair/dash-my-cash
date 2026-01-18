@@ -9,6 +9,7 @@
   --color-success-green: #10B981;
   --color-danger-red: #EF4444;
   --color-info-blue: #3B82F6;
+  --color-lime-green: #A3E635; /* Verde-limão neon para item ativo da sidebar */
 
   /* Tokens Primitivos - Escala de Cinza */
   --gray-50: #F9FAFB;
@@ -103,5 +104,17 @@
   /* Utilitários customizados */
   .text-balance {
     text-wrap: balance;
+  }
+}
+
+/* Animações para tooltip */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
   }
 }

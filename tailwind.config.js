@@ -13,6 +13,7 @@ export default {
         'success-green': 'var(--color-success-green)',
         'danger-red': 'var(--color-danger-red)',
         'info-blue': 'var(--color-info-blue)',
+        'lime-green': 'var(--color-lime-green)',
         
         // Tokens Primitivos - Escala de Cinza
         'gray': {
@@ -69,7 +70,8 @@ export default {
       },
       screens: {
         'md': '768px',   // Tablet
-        'lg': '1280px',  // Desktop
+        'desktop': '1024px',  // Desktop (conforme PROMPT 3)
+        'lg': '1280px',  // Desktop (conforme regras do projeto)
         'xl': '1920px',  // Wide / 4K
       },
     },

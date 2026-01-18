@@ -3,8 +3,8 @@
 ## Progresso
 - [x] PROMPT 0: Análise e Planejamento Inicial
 - [x] PROMPT 1: Estrutura Base e Configuração
-- [ ] PROMPT 2: Sistema de Layout e Navegação Desktop
-- [ ] PROMPT 3: Sistema de Layout e Navegação Mobile
+- [x] PROMPT 2: Sistema de Layout e Navegação Desktop
+- [x] PROMPT 3: Sistema de Layout e Navegação Mobile
 - [ ] PROMPT 4: Context Global e Gerenciamento de Estado
 - [ ] PROMPT 5: Cards de Resumo Financeiro
 - [ ] PROMPT 6: Header do Dashboard com Controles
@@ -159,14 +159,145 @@ N/A - Aguardando aprovação para commit
 ### 💾 COMMIT REALIZADO
 N/A - Aguardando aprovação para commit
 
+---
+
+## PROMPT 2: Sistema de Layout e Navegação Desktop
+**Status:** ✅ CONCLUÍDO (REFATORADO) | **Data:** 28/01/2025 | **Build:** ✅ (1 tentativa)
+
+### 📚 PRÉ-EXECUÇÃO
+✓ Rules relidas e aplicadas
+✓ Figma MCP consultado e analisado
+✓ Variáveis do design system verificadas
+✓ Hierarquia de variáveis respeitada
+
+### 📦 IMPLEMENTADO
+- Componente Sidebar com estados expandido/colapsado (conforme Figma MCP)
+- Hook useSidebar para gerenciamento de estado (com persistência no localStorage)
+- Botão de toggle circular no header ao lado do logo (conforme Figma)
+- Transições suaves de 300ms entre estados
+- Conteúdo principal ajusta margem esquerda fluidamente
+- Sistema de tooltips para itens quando sidebar está colapsada (delay de 300ms)
+- Item ativo destacado conforme Figma:
+  - Expandido: fundo verde-limão neon, texto e ícone pretos
+  - Colapsado: círculo verde-limão neon com ícone preto
+- Logo conforme Figma:
+  - Expandido: "Mycash+" com "My" sublinhado
+  - Colapsado: "My" em cima (negrito, sublinhado) e "cash+" embaixo (menor, cinza)
+- Perfil do usuário completo quando expandido, apenas avatar quando colapsado
+- 5 itens de navegação: Home, Cartões, Transações, Objetivos, Perfil
+- Sidebar apenas visível no desktop (≥1280px) usando `hidden lg:flex`
+- Layout atualizado para empurrar conteúdo (não sobrepor)
+
+### 🎨 TOKENS UTILIZADOS
+
+**Semânticas:**
+- `--color-lime-green` (fundo do item ativo - verde-limão neon #A3E635)
+
+**Primitivas:**
+- `--gray-50`, `--gray-100`, `--gray-200`, `--gray-500`, `--gray-600`, `--gray-900` (cores de fundo, texto e bordas)
+- `--black`, `--white` (texto e fundos)
+
+**Conversões realizadas:**
+- Verde neon do Figma → `--color-lime-green: #A3E635` (verde-limão vibrante para item ativo)
+
+### 📁 ARQUIVOS CRIADOS/MODIFICADOS
+- `src/hooks/useSidebar.ts` (hook para gerenciar estado da sidebar)
+- `src/components/ui/Tooltip.tsx` (componente de tooltip)
+- `src/components/layout/Sidebar/Sidebar.tsx` (refatorado conforme Figma MCP)
+- `src/components/layout/Sidebar/SidebarItem.tsx` (refatorado - item ativo com fundo verde-limão)
+- `src/components/layout/Layout.tsx` (atualizado para incluir sidebar)
+- `src/styles/globals.css` (adicionada variável --color-lime-green e animação fadeIn)
+- `tailwind.config.js` (adicionada cor lime-green ao tema)
+
+### 🔨 BUILD STATUS
+✅ Sucesso (tentativas: 1)
+- TypeScript: ✅
+- Vite build: ✅
+- CSS compilado: ✅
+
+### 💾 COMMIT REALIZADO
+N/A - Aguardando aprovação para commit
+
+---
+
+## PROMPT 3: Sistema de Layout e Navegação Mobile
+**Status:** ✅ CONCLUÍDO | **Data:** 28/01/2025 | **Build:** ✅ (1 tentativa)
+
+### 📚 PRÉ-EXECUÇÃO
+✓ Rules relidas e aplicadas
+✓ Figma consultado e analisado
+✓ Variáveis do design system verificadas
+✓ Breakpoints configurados corretamente
+
+### 📦 IMPLEMENTADO
+- Componente HeaderMobile fixo no topo (apenas <1024px)
+- Header ocupa largura total e permanece visível durante scroll
+- Logo "mycash+" à esquerda em tamanho apropriado para mobile
+- Avatar do usuário à direita, clicável como trigger do menu
+- Componente MenuDropdown com animação slide-down suave (300ms)
+- Menu não é fullscreen, cobre conteúdo abaixo com bordas arredondadas
+- Todos os itens de navegação com ícone e texto no dropdown
+- Item ativo destacado com fundo verde-limão neon (`--color-lime-green`) e texto preto (consistente com Sidebar)
+- Botão "Sair" vermelho na parte inferior do menu
+- Lógica de fechamento completa:
+  - Fecha ao clicar em qualquer item de navegação
+  - Fecha ao clicar no botão X no canto superior direito
+  - Fecha ao clicar/tocar no overlay escuro semi-transparente
+- Breakpoints configurados:
+  - Desktop (≥1024px): apenas Sidebar aparece
+  - Mobile/Tablet (<1024px): apenas HeaderMobile aparece
+  - Nunca aparecem simultaneamente
+- Conteúdo principal ajustado com padding-top no mobile para compensar header fixo
+
+### 🎨 TOKENS UTILIZADOS
+
+**Semânticas:**
+- `--color-danger-red` (botão "Sair")
+- `--color-lime-green` (item ativo - verde-limão neon, mantém consistência com Sidebar)
+
+**Primitivas:**
+- `--gray-100`, `--gray-200`, `--gray-500`, `--gray-900` (cores de fundo, texto e bordas)
+- `--black`, `--white` (texto e fundos)
+
+**Conversões realizadas:**
+- N/A (todos os valores usam variáveis primitivas do design system)
+
+### 📁 ARQUIVOS CRIADOS/MODIFICADOS
+- `src/components/layout/HeaderMobile/HeaderMobile.tsx` (componente principal do header mobile)
+- `src/components/layout/HeaderMobile/MenuDropdown.tsx` (menu dropdown com animação - refatorado para consistência visual com Sidebar)
+- `src/components/layout/Layout.tsx` (atualizado para incluir HeaderMobile e padding-top)
+- `tailwind.config.js` (adicionado breakpoint customizado 'desktop': 1024px)
+
+### 🔄 REFATORAÇÃO DE CONSISTÊNCIA VISUAL
+**Problema identificado:** HeaderMobile e MenuDropdown não mantinham consistência visual com a Sidebar.
+
+**Solução aplicada:**
+- MenuItem ativo: alterado de `bg-black text-white` para `bg-[var(--color-lime-green)] text-black` (igual à Sidebar)
+- MenuItem inativo: alterado para `text-black hover:bg-[var(--gray-100)]` (igual à Sidebar)
+- Todos os estilos agora usam variáveis primitivas do design system (`var(--gray-*)`, `var(--black)`, `var(--white)`)
+- Ícones e espaçamentos mantêm o mesmo padrão da Sidebar
+- HeaderMobile usa as mesmas cores e estilos da Sidebar
+
+### 🔨 BUILD STATUS
+✅ Sucesso (tentativas: 1)
+- TypeScript: ✅
+- Vite build: ✅
+- CSS compilado: ✅
+
+### 💾 COMMIT REALIZADO
+N/A - Aguardando aprovação para commit
+
 ### 🤔 PRÓXIMOS PASSOS
-⏭️ PROMPT 2: Sistema de Layout e Navegação Desktop
-- Componente Sidebar com estados expandido/colapsado
-- Transições suaves
-- Sistema de tooltips
-- Item ativo destacado
+⏭️ PROMPT 4: Context Global e Gerenciamento de Estado
+- FinanceProvider com arrays principais
+- Funções CRUD para todas as entidades
+- Estados de filtros globais
+- Funções de cálculo derivadas
+- Hook useFinance
+- Dados mock iniciais
+- ⚠️ NÃO usar localStorage/sessionStorage (apenas React state)
 
 **Comandos disponíveis:**
-- "Próximo" → Avançar para PROMPT 2
+- "Próximo" → Avançar para PROMPT 4
 - "Revisar [arquivo]" → Revisar arquivo específico
 - "Status" → Ver progresso geral
