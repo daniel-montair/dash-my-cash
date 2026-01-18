@@ -285,10 +285,154 @@ N/A - Aguardando aprovação para commit
 - CSS compilado: ✅
 
 ### 💾 COMMIT REALIZADO
+✅ `feat: implementa PROMPT 3 - Sistema de Layout e Navegação Mobile` (hash: 6db19cc)
+- 11 arquivos alterados, 937 inserções, 17 deleções
+- Push realizado com sucesso para `origin/main`
+
+---
+
+## PROMPT 4: Context Global e Gerenciamento de Estado
+**Status:** ✅ CONCLUÍDO | **Data:** 28/01/2025 | **Build:** ✅ (1 tentativa)
+
+### 📚 PRÉ-EXECUÇÃO
+✓ Rules relidas e aplicadas
+✓ Tipos TypeScript verificados
+✓ Arquitetura de contexto planejada
+✓ ⚠️ Regra crítica: NÃO usar localStorage/sessionStorage - apenas React state
+
+### 📦 IMPLEMENTADO
+- **FinanceProvider** criado como Context Provider no nível mais alto da aplicação
+- **5 arrays principais** gerenciados via React state:
+  - `transactions`: array de transações financeiras
+  - `goals`: array de objetivos financeiros
+  - `creditCards`: array de cartões de crédito
+  - `bankAccounts`: array de contas bancárias
+  - `familyMembers`: array de membros da família
+- **Funções CRUD completas** para cada entidade:
+  - `add*`, `update*`, `delete*` para todas as 5 entidades
+  - Todas as funções atualizam o estado e causam re-renderização automática
+- **Estados de filtros globais**:
+  - `selectedMember`: ID do membro selecionado ou null
+  - `dateRange`: objeto com startDate e endDate
+  - `transactionType`: 'all' | 'income' | 'expense'
+  - `searchText`: string para busca textual
+  - `resetFilters()`: função para resetar todos os filtros
+- **Funções de cálculo derivadas** (com memoização via useMemo):
+  - `getFilteredTransactions`: retorna array filtrado e ordenado
+  - `calculateTotalBalance`: soma saldos de contas - faturas de cartões
+  - `calculateIncomeForPeriod`: soma receitas do período filtrado
+  - `calculateExpensesForPeriod`: soma despesas do período filtrado
+  - `calculateExpensesByCategory`: agrupa despesas por categoria (ordenado)
+  - `calculateCategoryPercentage`: calcula % de categoria em relação à receita
+  - `calculateSavingsRate`: calcula taxa de poupança ((receitas - despesas) / receitas × 100)
+- **Hook customizado `useFinance`**: único ponto de acesso ao contexto
+- **Dados mock realistas** populados automaticamente:
+  - 3 membros da família brasileira (Lucas, Maria, Pedro)
+  - 3 contas bancárias (Nubank, Itaú, Bradesco)
+  - 3 cartões de crédito (Nubank Roxinho, Itaú Click, Bradesco Gold)
+  - 4 objetivos financeiros variados
+  - 20-30 transações distribuídas nos últimos 3 meses
+  - Categorias padrão brasileiras (Alimentação, Transporte, Moradia, etc.)
+
+### 🎨 TOKENS UTILIZADOS
+- N/A (este prompt é focado em lógica de negócio, não em estilos visuais)
+
+### 📁 ARQUIVOS CRIADOS/MODIFICADOS
+- `src/contexts/FinanceContext.tsx` (novo - contexto completo com provider e hook)
+- `src/App.tsx` (modificado - integrado FinanceProvider no nível mais alto)
+
+### 🔨 BUILD STATUS
+✅ Sucesso (tentativas: 1)
+- TypeScript: ✅
+- Vite build: ✅
+- Sem erros de lint: ✅
+
+### 💾 COMMIT REALIZADO
+N/A - Aguardando aprovação para commit
+
+### ⚠️ REGRA CRÍTICA RESPEITADA
+✅ **NÃO usa localStorage, sessionStorage ou qualquer browser storage API**
+✅ Todo o estado é gerenciado EXCLUSIVAMENTE via React state (useState, useReducer)
+✅ Dados são temporários e existem apenas durante a sessão do navegador
+✅ Futuramente será integrado com Supabase para persistência real
+
+---
+
+## PROMPT 5: Cards de Resumo Financeiro
+**Status:** ✅ CONCLUÍDO | **Data:** 28/01/2025 | **Build:** ✅ (1 tentativa)
+
+### 📚 PRÉ-EXECUÇÃO
+✓ Rules relidas e aplicadas
+✓ Variáveis do design system verificadas
+✓ Context Finance verificado
+✓ Hierarquia de variáveis respeitada
+
+### 📦 IMPLEMENTADO
+- **BalanceCard** (Card de Saldo Total):
+  - Fundo completamente preto (`bg-[var(--black)]`) com texto branco
+  - Círculo decorativo verde-limão desfocado (`bg-[var(--color-lime-green)] opacity-20 blur-3xl`)
+  - Label "Saldo Total" em cinza claro (`text-[var(--gray-300)]`)
+  - Valor formatado como moeda brasileira (R$ 1.234,56) em fonte grande
+  - Badge arredondado com fundo semi-transparente branco mostrando crescimento percentual
+  - Cálculo compara saldo atual com saldo de 30 dias atrás
+  - Valor vem de `calculateTotalBalance` do contexto
+  - Animação de contagem de 800ms
+- **IncomeCard** (Card de Receitas):
+  - Fundo branco (`bg-[var(--white)]`) com borda sutil (`border-[var(--gray-200)]`)
+  - Label "Receitas" em preto negrito no topo à esquerda
+  - Círculo com fundo cinza claro contendo ícone de seta diagonal (entrada de dinheiro)
+  - Valor formatado como moeda em fonte grande e negrito
+  - Valor vem de `calculateIncomeForPeriod` do contexto
+  - Animação de contagem de 800ms
+- **ExpenseCard** (Card de Despesas):
+  - Estrutura similar ao IncomeCard
+  - Label "Despesas" em cinza médio (`text-[var(--gray-500)]`)
+  - Círculo com fundo vermelho claro (`bg-red-100`) e ícone de seta diagonal (saída)
+  - Valor formatado como moeda
+  - Valor vem de `calculateExpensesForPeriod` do contexto
+  - Animação de contagem de 800ms
+- **Layout responsivo**:
+  - Desktop: cards organizados horizontalmente com flexbox
+  - BalanceCard ocupa `flex-[1.2]` (um pouco maior)
+  - IncomeCard e ExpenseCard ocupam `flex-1` (tamanhos iguais)
+  - Mobile: cards organizados verticalmente, cada um ocupa largura total
+- **Hook `useCountAnimation`**: animação suave de contagem (800ms) com easing ease-out
+- **Utilitário `formatCurrency`**: formata valores como moeda brasileira usando `Intl.NumberFormat`
+
+### 🎨 TOKENS UTILIZADOS
+
+**Semânticas:**
+- `--color-lime-green` (círculo decorativo do BalanceCard)
+- `--color-danger-red` (ícone do ExpenseCard)
+
+**Primitivas:**
+- `--black`, `--white` (fundos e textos)
+- `--gray-50`, `--gray-100`, `--gray-200`, `--gray-300`, `--gray-500`, `--gray-900` (cores de fundo, texto e bordas)
+- `--border-radius-lg` (bordas arredondadas)
+- `--spacing-md`, `--spacing-lg` (espaçamentos)
+
+**Conversões realizadas:**
+- N/A (todos os valores usam variáveis primitivas do design system)
+
+### 📁 ARQUIVOS CRIADOS/MODIFICADOS
+- `src/components/dashboard/BalanceCard.tsx` (novo)
+- `src/components/dashboard/IncomeCard.tsx` (novo)
+- `src/components/dashboard/ExpenseCard.tsx` (novo)
+- `src/hooks/useCountAnimation.ts` (novo - hook para animação de contagem)
+- `src/utils/format.ts` (novo - utilitários de formatação)
+- `src/pages/Dashboard.tsx` (modificado - integrados os três cards)
+
+### 🔨 BUILD STATUS
+✅ Sucesso (tentativas: 1)
+- TypeScript: ✅
+- Vite build: ✅
+- Sem erros de lint: ✅
+
+### 💾 COMMIT REALIZADO
 N/A - Aguardando aprovação para commit
 
 ### 🤔 PRÓXIMOS PASSOS
-⏭️ PROMPT 4: Context Global e Gerenciamento de Estado
+⏭️ PROMPT 6: Header do Dashboard com Controles
 - FinanceProvider com arrays principais
 - Funções CRUD para todas as entidades
 - Estados de filtros globais

@@ -23,6 +23,9 @@
   --gray-800: #1F2937;
   --gray-900: #111827;
 
+  /* Neutral colors (Figma) */
+  --color-neutral-500: #98A3B1;
+
   --white: #FFFFFF;
   --black: #000000;
 
@@ -104,6 +107,11 @@
   /* Utilitários customizados */
   .text-balance {
     text-wrap: balance;
+  }
+
+  /* Esconder scrollbar */
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
   }
 }
 
